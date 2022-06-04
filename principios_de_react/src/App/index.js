@@ -1,13 +1,6 @@
-// import logo from './logo.svg';
-// import './App.css';
-
 import React from "react";
-// import TodoCounter from "./TodoCounter"; esta es la forma de importar por default
- // de esta manera se importa de manera
-//especifica con el nombre de la funcion, variable, componente etc. que quiero
-
-
 import { AppUI } from "./AppUI";
+
 
 const defaultTodos =[
 
@@ -20,13 +13,10 @@ const defaultTodos =[
 
 
 function App() {
-
-
-
-
-  
   // antes de hacer nuestro retorno se llama a el estado searchValue,setSearchValue
-  const [todos,setTodos]=React.useState(defaultTodos)
+  // let parsedTodos;
+  const [todos,setTodos]=React.useState(defaultTodos);
+
   const [searchValue,setSearchValue]= React.useState("");
 
   // como el estado viene de TodoSearch entramos a las propiedades del componente <TodoSearch/> y le hacemos llegar los valores de 
@@ -62,12 +52,10 @@ function App() {
   };
 
 
-
-
   return (
    <AppUI
     totalTodos={totalTodos}
-    completed={completedTodos}
+    completedTodos={completedTodos}
     searchValue={searchValue}
     setSearchValue={setSearchValue}
     searchedTodos={searchedTodos}

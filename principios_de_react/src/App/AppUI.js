@@ -13,6 +13,7 @@ function AppUI({
   searchedTodos,
   completeTodo,  
   deleteTodo,
+
 })
 {
     return (
