@@ -8,22 +8,37 @@ import { AppUI } from './AppUI';
 //   { text: 'LALALALAA', completed: false },
 // ];
 
-function App() {
 
+function useLocalStorage(itemName,initialValue){
 
-  const localStorageTodos=localStorage.getItem("ToDos_V1");
-  let parsedTodos;
+  const localStorageItem=localStorage.getItem(itemName);
+  let parsedItem;
 
-  if(!localStorageTodos){
-     localStorage.setItem("ToDos_V1",JSON.stringify([]))
-     parsedTodos=[];
+  if(!localStorageItem){
+     localStorage.setItem(itemName,JSON.stringify(initialValue))
+     parsedItem=initialValue;
   }else{
-
-    parsedTodos=JSON.parse(localStorageTodos);
-
+    parsedItem=JSON.parse(localStorageItem);
   }
 
-  const [todos, setTodos] = React.useState(parsedTodos);
+  const [item, setItem] = React.useState(parsedItem);
+
+  const saveItem=(newItem)=>{ 
+    const stringifierItem=JSON.stringify(newItem);
+  localStorage.setItem(itemName,stringifierItem);
+  setItem(newItem)  
+  };
+
+   return [
+     item,
+  saveItem]
+}
+
+function App() {
+
+  const [patito,savePatito]=useLocalStorage("PATOTE_V2","PatoDonald")
+  const [todos,saveTodos]=useLocalStorage("ToDos_V1",[])
+
   const [searchValue, setSearchValue] = React.useState('');
 
   const completedTodos = todos.filter(todo => !!todo.completed).length;
@@ -42,11 +57,7 @@ function App() {
   }
 
 
-  const saveTodos=(newTodos)=>{ 
-    const stringifierTodos=JSON.stringify(newTodos);
-  localStorage.setItem("ToDos_V1",stringifierTodos);
-  setTodos(newTodos)  
-  }
+  
 
   const completeTodo = (text) => {
     const todoIndex = todos.findIndex(todo => todo.text === text);
@@ -62,7 +73,9 @@ function App() {
     saveTodos(newTodos);
   };
   
-  return (
+  //momentaneamente convertimos el return en un array para ver si los patitos funcionan
+  return [
+    <p>{patito}</p>,
     <AppUI
       totalTodos={totalTodos}
       completedTodos={completedTodos}
@@ -71,8 +84,9 @@ function App() {
       searchedTodos={searchedTodos}
       completeTodo={completeTodo}
       deleteTodo={deleteTodo}
-    />
-  );
+    />,
+
+  ];
 }
 
 export default App;
